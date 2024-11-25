@@ -112,4 +112,18 @@ data <- data %>%
   group_by(year) %>% 
   mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
+```{r}
+growth_summary <- growth_summary %>% 
+  slice(-c(2))
+```
+
+```{r}
+growth_summary <- growth_summary %>% 
+  select(-starts_with("WJ"))
+```
+```{r}
+growth_summary <- growth_summary %>% 
+  select(-starts_with("ITBS"))
+```
+
 
