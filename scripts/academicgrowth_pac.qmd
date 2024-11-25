@@ -95,3 +95,21 @@ ggplot(data) +
   )
 
 ```
+
+```{r}
+data <- data %>%
+  group_by(year) %>% 
+  mutate(math_by_year = mean(Math_growth, na.rm = TRUE))
+```
+
+```{r}
+data <- data %>% 
+  select(-read_by_year)
+```
+
+```{r}
+data <- data %>% 
+  group_by(year) %>% 
+  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
+```
+
