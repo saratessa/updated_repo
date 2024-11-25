@@ -1,0 +1,56 @@
+---
+title: "Final Project"
+author: "Will, Marcus, Saratessa"
+format: html
+editor: visual
+---
+
+```{r}
+setwd("/Users/saratessapalos/Desktop/EDLDClassProject/EDLD651ClassProject/data")
+
+data <- read.csv("updated.csv")
+```
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(corrplot)
+library(viridis)
+library(gridExtra)   
+
+# Growth patterns across measures and years
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = LWID_growth, fill = year)) +
+  facet_wrap(~"Letter-Word ID Growth") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+# Growth distribution violin plots
+long_data <- data %>%
+  pivot_longer(
+    cols = ends_with("_growth"),
+    names_to = "measure",
+    values_to = "growth"
+  )
+
+ggplot(long_data, aes(x = measure, y = growth, fill = year)) +
+  geom_violin() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Statistical summary by measure
+growth_summary <- data %>%
+  group_by(year) %>%
+  summarize(
+    across(ends_with("_growth"),
+           list(
+             mean = ~mean(., na.rm = TRUE),
+             sd = ~sd(., na.rm = TRUE),
+             n = ~sum(!is.na(.))
+           ))
+  )
+
+print(growth_summary)
+
+```
