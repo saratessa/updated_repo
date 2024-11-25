@@ -66,4 +66,15 @@ growth_summary <- data %>%
 
 print(growth_summary)
 
+# Cross-domain comparison
+ggplot(data) +
+  geom_point(aes(x = RC_growth, y = Math_growth, color = year)) +
+  geom_smooth(aes(x = RC_growth, y = Math_growth), method = "lm") +
+  theme_minimal() + 
+  labs(
+    title = "Reading vs Math Growth Correlation",
+       x = "Reading Growth",
+       y = "Math Growth" 
+  )
+
 ```
