@@ -10,6 +10,11 @@ setwd("/Users/saratessapalos/Desktop/EDLDClassProject/EDLD651ClassProject/data")
 
 data <- read.csv("updated.csv")
 ```
+```{r}
+library(readr)
+updated <- read_csv("C:/Users/Administrator/Desktop/Final Project/updated_repo/data/updated.csv")
+View(updated)
+```
 
 ```{r}
 library(tidyverse)
