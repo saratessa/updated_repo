@@ -18,6 +18,13 @@ View(data)
 ```
 
 ```{r}
+library(here)
+library(readr)
+
+data <- read_csv(here("data", "updated.csv"))
+```
+
+```{r}
 library(tidyverse)
 library(readxl)
 library(corrplot)
