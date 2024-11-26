@@ -94,6 +94,7 @@ ggplot(data) +
   )
  
 #Writing growth per year
+#BOXPLOTS
 #Writing Assesment
 ggplot(data, aes(x = year)) +
   geom_boxplot(aes(y = WA_growth, fill = year)) +
@@ -125,6 +126,7 @@ ggplot(growth_summary, aes(x = year, y = WA_growth_mean, fill = year)) +
     y = "Growth"
   )
 
+#BAR CHARTS
 #Writing Fluency mean growth per year bar chart.
 ggplot(growth_summary, aes(x = year, y = WF_growth_mean, fill = year)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -144,6 +146,8 @@ ggplot(growth_summary, aes(x = year, y = WS_growth_mean, fill = year)) +
     x = "Year",
     y = "Growth"
   )
+
+#FACET WRAP (WRITING)
 
 #Reading growth per year
 #BOXPLOTS
@@ -194,11 +198,23 @@ ggplot(growth_summary, aes(x = year, y = LWID_growth_mean, fill = year)) +
   geom_bar(stat = "identity", position = "dodge") +
   theme_minimal() +
   labs(
-    title = "Average Reading Comprehension Growth by Year",
+    title = "Letter-Word Identification Growth by Year",
     x = "Year",
     y = "Growth"
   )
 
+#FACET WRAP (READING)
+
+
+#Math growth per year
+#BOXPLOTS
+#Calculation boxplot
+
+#Math fluency boxplot
+
+#BAR CHARTS
+
+#FACET WRAP (MATH)
 ```
 
 ```{r}
