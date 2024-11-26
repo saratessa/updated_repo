@@ -96,34 +96,23 @@ ggplot(data) +
 
 ```
 
-```{r}
-data <- data %>%
-  group_by(year) %>% 
-  mutate(math_by_year = mean(Math_growth, na.rm = TRUE))
-```
 
 ```{r}
-data <- data %>% 
-  select(-read_by_year)
-```
+#Modifying growth summary.
 
-```{r}
-data <- data %>% 
-  group_by(year) %>% 
-  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
-```
-```{r}
-growth_summary <- growth_summary %>% 
-  slice(-c(2))
-```
-
-```{r}
 growth_summary <- growth_summary %>% 
   select(-starts_with("WJ"))
-```
-```{r}
+
 growth_summary <- growth_summary %>% 
   select(-starts_with("ITBS"))
+```
+
+```{r}
+
+```
+
+```{r}
+
 ```
 
 
