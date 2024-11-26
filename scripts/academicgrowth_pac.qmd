@@ -226,3 +226,19 @@ growth_summary <- growth_summary %>%
 growth_summary <- growth_summary %>% 
   select(-starts_with("ITBS"))
 ```
+
+```{r}
+#Creating an alternative, clean version of the 'data' data frame, based on Nov 25 meeting
+library(dplyr)
+
+#removing rows for 2009-2010 data
+data2 <- data %>%
+  filter(year != "2009-2010")
+
+#removing columns WJID_growth to Math_growth
+columns_to_remove <- which(names(data) == "WJ_LWID_growth"):which(names(data) == "Math_growth")
+data2 <- data[, -columns_to_remove]
+```
+
+
+
