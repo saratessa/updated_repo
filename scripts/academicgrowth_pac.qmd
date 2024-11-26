@@ -219,6 +219,8 @@ ggplot(growth_summary, aes(x = year, y = LWID_growth_mean, fill = year)) +
 
 ```{r}
 #Modifying growth summary.
+growth_summary <- growth_summary [-2, ]
+print(data)
 
 growth_summary <- growth_summary %>% 
   select(-starts_with("WJ"))
