@@ -168,6 +168,36 @@ ggplot(data, aes(x = year)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+#BAR CHARTS
+#Reading comprehension mean growth per year bar chart
+ggplot(growth_summary, aes(x = year, y = RC_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Average Reading Comprehension Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Reading fluency mean growth per year bar chart
+ggplot(growth_summary, aes(x = year, y = RF_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Average Reading Fluency Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Letter-Word Identification mean growth per year bar chart
+ggplot(growth_summary, aes(x = year, y = LWID_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Average Reading Comprehension Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
 
 ```
 
