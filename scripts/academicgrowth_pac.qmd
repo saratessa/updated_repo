@@ -93,7 +93,28 @@ ggplot(data) +
        x = "Reading Growth",
        y = "Math Growth" 
   )
+ 
+#Writing growth per year
+#Writing Assesment
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = WA_growth, fill = year)) +
+  facet_wrap(~"Writing Assesment Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+#Writing Fluency
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = WF_growth, fill = year)) +
+  facet_wrap(~"Writing Fluency by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Writing Skills
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = WS_growth, fill = year)) +
+  facet_wrap(~"Writing S Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle =.45, hjust = 1))
 ```
 
 
