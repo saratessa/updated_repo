@@ -33,22 +33,21 @@ library(gridExtra)
 
 # Growth patterns across measures and years
 
-# Letter-Word Identification
+# Letter-Word Identification Boxplot
 ggplot(data, aes(x = year)) +
   geom_boxplot(aes(y = LWID_growth, fill = year)) +
   facet_wrap(~"Letter-Word ID Growth") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# Math Fluency Growth
+# Math Fluency Growth Boxplot
 ggplot(data, aes(x = year)) +
   geom_boxplot(aes(y = MF_growth, fill = year)) +
   facet_wrap(~"Math Fluency Growth by Year") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# Calculation Growth
-
+# Calculation Growth Boxplot
 ggplot(data, aes(x = year)) +
   geom_boxplot(aes(y = CALC_growth, fill = year)) +
   facet_wrap(~"Calculation Growth by Year") +
@@ -145,8 +144,32 @@ ggplot(growth_summary, aes(x = year, y = WS_growth_mean, fill = year)) +
     x = "Year",
     y = "Growth"
   )
-```
 
+#Reading growth per year
+#BOXPLOTS
+#Reading comprehension boxplot
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = RC_growth, fill = year)) +
+  facet_wrap(~"Reading Comprehension Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Reading fluency boxplot
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = RF_growth, fill = year)) +
+  facet_wrap(~"Reading Comprehension Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#Letter-Word Identification boxplot
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = LWID_growth, fill = year)) +
+  facet_wrap(~"Letter-Word Identification Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
 
 ```{r}
 #Modifying growth summary.
@@ -157,6 +180,3 @@ growth_summary <- growth_summary %>%
 growth_summary <- growth_summary %>% 
   select(-starts_with("ITBS"))
 ```
-
-
-
