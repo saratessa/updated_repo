@@ -115,6 +115,36 @@ ggplot(data, aes(x = year)) +
   facet_wrap(~"Writing S Growth by Year") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle =.45, hjust = 1))
+
+#Writing Assessment mean growth per year bar chart.
+ggplot(growth_summary, aes(x = year, y = WA_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Writing Assesment Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Writing Fluency mean growth per year bar chart.
+ggplot(growth_summary, aes(x = year, y = WF_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Writing Fluency Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Writing Skills mean growth per year bar chart. 
+ggplot(growth_summary, aes(x = year, y = WS_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Writing Skills Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
 ```
 
 
@@ -128,12 +158,5 @@ growth_summary <- growth_summary %>%
   select(-starts_with("ITBS"))
 ```
 
-```{r}
-
-```
-
-```{r}
-
-```
 
 
