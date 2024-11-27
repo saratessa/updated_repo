@@ -236,9 +236,73 @@ data2 <- data %>%
   filter(year != "2009-2010")
 
 #removing columns WJID_growth to Math_growth
-columns_to_remove <- which(names(data) == "WJ_LWID_growth"):which(names(data) == "Math_growth")
-data2 <- data[, -columns_to_remove]
+columns_to_remove <- which(names(data2) == "WJ_LWID_growth"):which(names(data2) == "Math_growth")
+data2 <- data2[, -columns_to_remove]
 ```
 
+```{r}
+df_wide <- pivot_wider(data2, names_from = year, values_from = c(RC_growth, LWID_growth, WA_growth, RF_growth, WF_growth, WS_growth, CALC_growth, MF_growth))
+df_wide
 
+df_long <- pivot_longer(df_wide, cols = ends_with(c("2008-2009","2015-2016", "2016-2017", "2023-2024"), names_to = "year", values_to(c(RC_growth, LWID_growth, WA_growth, RF_growth, WF_growth, WS_growth, CALC_growth, MF_growth))))
+
+
+df_long
+```
+
+```{r}
+copy_df <- data2
+
+copy_df$reading <- (copy_df$RC_growth + copy_df$LWID_growth + copy_df$RF_growth) / 3
+copy_df$reading <- round(copy_df$reading, 2)
+
+copy_df$writing <- (copy_df$WA_growth + copy_df$WF_growth + copy_df$WS_growth) / 3
+copy_df$writing <- round(copy_df$writing, 2)
+
+copy_df$math <- (copy_df$CALC_growth + copy_df$MF_growth) / 2
+copy_df$math <- round(copy_df$math, 2)
+```
+
+```{r}
+mean_reading <- mean(copy_df$reading, na.rm = TRUE)
+mean_reading <- round(mean_reading, 2)
+mean_reading
+
+mean_writing <- mean(copy_df$writing, na.rm = TRUE)
+mean_writing <- round(mean_writing, 2)
+
+mean_math <- mean(copy_df$math, na.rm = TRUE)
+mean_math <- round(mean_math, 2)
+```
+
+```{r}
+reading_by_year <- copy_df %>% 
+  group_by(year) %>% 
+  summarise(mean_reading = mean(reading, na.rm = TRUE))
+
+reading_by_year
+
+writing_by_year <- copy_df %>% 
+  group_by(year) %>% 
+  summarise(mean_writing = mean(writing, na.rm = TRUE))
+
+writing_by_year
+
+math_by_year <- copy_df %>% 
+  group_by(year) %>% 
+  summarise(mean_math = mean(math, na.rm = TRUE))
+
+math_by_year
+
+library(knitr)
+#Merged table for academic growth averages, by year
+merged_means <- left_join(reading_by_year, writing_by_year, math_by_year, by = "year")
+merged_means <- left_join(merged_means, math_by_year, by = "year")
+merged_means
+
+#Kable table
+kable (merged_means, 
+       col.names = c("Year", "mean_reading", "mean_writing", "mean_math"),
+       caption = "Average growth by academic domain")
+```
 
