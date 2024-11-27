@@ -254,6 +254,9 @@ data2 <- data %>%
 #removing columns WJID_growth to Math_growth
 columns_to_remove <- which(names(data2) == "WJ_LWID_growth"):which(names(data2) == "Math_growth")
 data2 <- data2[, -columns_to_remove]
+
+#Shifting 'ID' column to left of 'year'
+data2 <- data2[, c("id", "year", setdiff(names(data2), c("id", "year")))]
 ```
 
 ```{r Pivot}
@@ -266,15 +269,18 @@ data_wide
 ```
 
 ```{r data2-averages}
-#Adding merged means columns (across measures) to 'data2' frame, for secondary research
+#Adding merged means columns (across academic domain measures) to 'data2' frame, for secondary research
 averages_data2 <- data2
 
+#Reading
 averages_data2$reading <- (averages_data2$RC_growth + averages_data2$LWID_growth + averages_data2$RF_growth) / 3
 averages_data2$reading <- round(averages_data2$reading, 2)
 
+#Writing
 averages_data2$writing <- (averages_data2$WA_growth + averages_data2$WF_growth + averages_data2$WS_growth) / 3
 averages_data2$writing <- round(averages_data2$writing, 2)
 
+#Math
 averages_data2$math <- (averages_data2$CALC_growth + averages_data2$MF_growth) / 2
 averages_data2$math <- round(averages_data2$math, 2)
 ```
@@ -331,4 +337,3 @@ kable (merged_means,
 #  group_by(year) %>% 
 #  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
-
