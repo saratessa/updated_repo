@@ -269,7 +269,6 @@ data_wide
 ```
 
 ```{r data2-averages}
-<<<<<<< HEAD
 #Adding merged means columns (across academic domain measures) to 'data2' frame, for secondary research
 averages_data2 <- data2
 
@@ -280,21 +279,6 @@ averages_data2$reading <- round(averages_data2$reading, 2)
 #Writing
 averages_data2$writing <- (averages_data2$WA_growth + averages_data2$WF_growth + averages_data2$WS_growth) / 3
 averages_data2$writing <- round(averages_data2$writing, 2)
-
-#Math
-=======
-#Adding merged means columns (across measures) to 'data2' frame, for secondary research
-averages_data2 <- data2
-
-averages_data2$reading <- (averages_data2$RC_growth + averages_data2$LWID_growth + averages_data2$RF_growth) / 3
-averages_data2$reading <- round(averages_data2$reading, 2)
-
-averages_data2$writing <- (averages_data2$WA_growth + averages_data2$WF_growth + averages_data2$WS_growth) / 3
-averages_data2$writing <- round(averages_data2$writing, 2)
-
->>>>>>> origin/main
-averages_data2$math <- (averages_data2$CALC_growth + averages_data2$MF_growth) / 2
-averages_data2$math <- round(averages_data2$math, 2)
 ```
 
 ```{r grand-means}
@@ -349,7 +333,5 @@ kable (merged_means,
 #  group_by(year) %>% 
 #  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/main
+
