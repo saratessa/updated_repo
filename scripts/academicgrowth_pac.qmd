@@ -40,20 +40,6 @@ ggplot(data, aes(x = year)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-# Math Fluency Growth Boxplot
-ggplot(data, aes(x = year)) +
-  geom_boxplot(aes(y = MF_growth, fill = year)) +
-  facet_wrap(~"Math Fluency Growth by Year") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Calculation Growth Boxplot
-ggplot(data, aes(x = year)) +
-  geom_boxplot(aes(y = CALC_growth, fill = year)) +
-  facet_wrap(~"Calculation Growth by Year") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 # Growth distribution violin plots
 long_data <- data %>%
   pivot_longer(
@@ -208,11 +194,39 @@ ggplot(growth_summary, aes(x = year, y = LWID_growth_mean, fill = year)) +
 
 #Math growth per year
 #BOXPLOTS
-#Calculation boxplot
 
-#Math fluency boxplot
+# Math Fluency Growth Boxplot
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = MF_growth, fill = year)) +
+  facet_wrap(~"Math Fluency Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Calculation Growth Boxplot
+ggplot(data, aes(x = year)) +
+  geom_boxplot(aes(y = CALC_growth, fill = year)) +
+  facet_wrap(~"Calculation Growth by Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 #BAR CHARTS
+ggplot(growth_summary, aes(x = year, y = CALC_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Math Calculation Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+ggplot(growth_summary, aes(x = year, y = MF_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Math Fluency Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
 
 #FACET WRAP (MATH)
 ```
@@ -222,6 +236,7 @@ ggplot(growth_summary, aes(x = year, y = LWID_growth_mean, fill = year)) +
 growth_summary <- growth_summary [-2, ]
 print(data)
 
+<<<<<<< Updated upstream
 growth_summary <- growth_summary %>% 
   select(-starts_with("WJ"))
 
@@ -242,5 +257,17 @@ columns_to_remove <- which(names(data) == "WJ_LWID_growth"):which(names(data) ==
 data2 <- data[, -columns_to_remove]
 ```
 
+=======
 
+```{r}
+data <- data %>% 
+  select(-read_by_year)
+```
 
+```{r}
+data <- data %>% 
+  group_by(year) %>% 
+  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
+```
+
+> > > > > > > Stashed changes
