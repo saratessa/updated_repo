@@ -22,6 +22,8 @@ library(here)
 library(readr)
 
 data <- read_csv(here("data", "updated.csv"))
+
+# I'm not familiar with this data but, given the preponderance of missing values in 2009-2010, what might be the implications of filtering out that year?
 ```
 
 ```{r}
@@ -38,7 +40,11 @@ ggplot(data, aes(x = year)) +
   geom_boxplot(aes(y = LWID_growth, fill = year)) +
   facet_wrap(~"Letter-Word ID Growth") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(y="Median Annual Score Increase")
+
+# Love the boxplot, very legible and descriptive!
+# Would recommend further detailing what "growth" represents in terms of score, letters/words identified, etc
 
 # Growth distribution violin plots
 long_data <- data %>%
@@ -53,6 +59,8 @@ ggplot(long_data, aes(x = measure, y = growth, fill = year)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+# Tremendous work pivoting the data long! Clear mastery of cols/names_to/values_to which is, in my opinion, no small feat!
+
 # Statistical summary by measure
 growth_summary <- data %>%
   group_by(year) %>%
@@ -65,7 +73,11 @@ growth_summary <- data %>%
            ))
   )
 
-print(growth_summary)
+library(gt)
+growth_summary %>% 
+  gt()
+
+# used the gt package to generate a table but will leave it to your discretion!
 
 # Cross-domain comparison
 ggplot(data) +
@@ -78,6 +90,8 @@ ggplot(data) +
        x = "Reading Growth",
        y = "Math Growth" 
   )
+
+# Very cool idea! This plot won't quite run for me, though - I think you need 'aes' in the initial ggplot?
  
 #Writing growth per year
 #BOXPLOTS
@@ -112,6 +126,19 @@ ggplot(growth_summary, aes(x = year, y = WA_growth_mean, fill = year)) +
     y = "Growth"
   )
 
+growth_summary %>% 
+  filter(year != "2009-2010") %>% 
+  ggplot(aes(x = year, y = WA_growth_mean, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Writing Assesment Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+# Here's one example of how you might code using dplyr to filter out missing bars without altering the existing data or creating a new set...though I can also respect if you want to visually display the lack of data for 2009-2010!
+
 #BAR CHARTS
 #Writing Fluency mean growth per year bar chart.
 ggplot(growth_summary, aes(x = year, y = WF_growth_mean, fill = year)) +
@@ -142,7 +169,11 @@ ggplot(data, aes(x = year)) +
   geom_boxplot(aes(y = RC_growth, fill = year)) +
   facet_wrap(~"Reading Comprehension Growth by Year") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  +
+  labs(y="Reading Comp. Median Score Increase",
+       subtitle = "Box represents IQR; center line represents median")
+
+# Again, boxplots are an excellent visual choice! Would just update labels to indicate what parameter (test score?) the growth represents and also that the box represents the IQR
 
 #Reading fluency boxplot
 ggplot(data, aes(x = year)) +
@@ -251,6 +282,8 @@ library(dplyr)
 data2 <- data %>%
   filter(year != "2009-2010")
 
+# Ah, I see! That's what I get for commenting before reading all the way through - very nice!
+
 #removing columns WJID_growth to Math_growth
 columns_to_remove <- which(names(data2) == "WJ_LWID_growth"):which(names(data2) == "Math_growth")
 data2 <- data2[, -columns_to_remove]
@@ -279,6 +312,10 @@ averages_data2$reading <- round(averages_data2$reading, 2)
 #Writing
 averages_data2$writing <- (averages_data2$WA_growth + averages_data2$WF_growth + averages_data2$WS_growth) / 3
 averages_data2$writing <- round(averages_data2$writing, 2)
+
+# I think you guys need code to create averages_data2$math, unless I am missing it!
+
+# Tremendous work keeping track of many moving parts! Only thing I'd ask is whether you want the average of all students' average growth (if I'm following the "grand mean" terminology correctly) or if you might want to take the average of all students' composite (sum) growth? Which one do you think would be more representative of "true" growth in reading/writing/math?
 ```
 
 ```{r grand-means}
@@ -333,5 +370,3 @@ kable (merged_means,
 #  group_by(year) %>% 
 #  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
-
-
