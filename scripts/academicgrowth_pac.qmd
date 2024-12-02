@@ -30,7 +30,7 @@ library(tidyverse)
 library(readxl)
 library(corrplot)
 library(viridis)
-library(gridExtra)   
+library(gridExtra)   #I learned about how to use different packages that I had not previously known how to use and how they can be used for cleaning and analyzing data. 
 
 # Growth patterns across measures and years
 
