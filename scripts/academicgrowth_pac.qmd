@@ -24,7 +24,7 @@ library(readr)
 data <- read_csv(here("data", "updated.csv"))
 #you probably dont need this two times in your code becuase it does the same thing as the code chunk below
 ```
-
+I like how you separated each thing you were doing with their own labels, it makes looking back at the data a lot easier as well as the comments within code are helpful for understanding what the code means as well. 
 ```{r}
 library(tidyverse)
 library(readxl)
@@ -135,7 +135,7 @@ ggplot(growth_summary, aes(x = year, y = WS_growth_mean, fill = year)) +
   )
 
 #FACET WRAP (WRITING)
-
+The use of Facet_wrap() in your graphs was a good choice because it condensed a lot of information into one graph.
 #Reading growth per year
 #BOXPLOTS
 #Reading comprehension boxplot
@@ -314,7 +314,7 @@ math_by_year <- averages_data2 %>%
   group_by(year) %>% 
   summarise(mean_math = mean(math, na.rm = TRUE))
 math_by_year
-
+I like the use of your descriptives table and including relevant means all in one table. It acts as an easy visual reference for a lot of variables that otherwise wouldn't be easy to compare side by side. 
 #Merged table for academic growth averages, by year
 library(knitr)
 
