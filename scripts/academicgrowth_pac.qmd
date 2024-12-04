@@ -337,6 +337,318 @@ kable (merged_means,
 #  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
 
+## Research Question 1
+
+# Academic growth patterns across all years, and individual years
+```{r}
+# Growth patterns across measures and years
+
+# Growth distribution violin plots
+long_data <- data2 %>%
+  pivot_longer(
+    cols = ends_with("_growth"),
+    names_to = "measure",
+    values_to = "growth"
+  )
+
+long_data <- long_data %>%
+  mutate(
+    measure = case_when(
+      measure == "CALC_growth" ~ "Calculation",
+      measure == "MF_growth" ~ "Math Fluency",
+      measure == "RC_growth" ~ "Reading Comprehension",
+      measure == "LWID_growth" ~ "Letter-Word Identification",
+      measure == "WA_growth" ~ "Writing Assessment",
+      measure == "RF_growth" ~ "Reading Fluency",
+      measure == "WF_growth" ~ "Writing Fluency",
+      measure == "WS_growth" ~ "Writing Skills",
+      TRUE ~ measure
+    )
+  )
+
+# Reordering measures
+long_data$measure <- factor(
+  long_data$measure,
+  levels = c(
+    "Reading Comprehension", 
+    "Letter-Word Identification", 
+    "Reading Fluency", 
+    "Writing Assessment", 
+    "Writing Fluency",
+    "Writing Skills",
+    "Calculation", 
+    "Math Fluency"
+  )
+)
+
+#VIOLIN PLOT
+#All Years
+ggplot(long_data, aes(x = measure, y = growth, fill = year)) +
+  geom_violin() +
+  scale_fill_brewer(palette = "Set2") + 
+  labs(
+    title = "Distribution of Growth Measures", # PLot title
+    subtitle = "Analysis of Various Measures Across Years Analyzed", # Subtitle 
+    x = "Academic Measure", # X-axis label
+    y = "Growth Value" # Y-axis label
+  ) +
+  theme_minimal(base_size = 15) + # Theme
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"), # Bold, angled X-axis text
+    axis.text.y = element_text(face = "bold"), # Bold Y-axis text
+    axis.title.x = element_text(face = "bold", size = 14), # Bold X-axis label
+    axis.title.y = element_text(face = "bold", size = 14), # Bold Y-axis label
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5), # Bold, centered title
+    plot.subtitle = element_text(size = 14, hjust = 0.5), # Centered subtitle
+  )
+```
+
+```{violin-0809}
+# Violin plot for measures across 2008-2009
+#Renaming measures
+long_data0809 <- long_data %>%
+  filter(year == "2008-2009") %>%
+  mutate(
+    measure = case_when(
+      measure == "CALC_growth" ~ "Calculation",
+      measure == "MF_growth" ~ "Math Fluency",
+      measure == "RC_growth" ~ "Reading Comprehension",
+      measure == "LWID_growth" ~ "Letter-Word Identification",
+      measure == "WA_growth" ~ "Writing Assessment",
+      measure == "RF_growth" ~ "Reading Fluency",
+      measure == "WF_growth" ~ "Writing Fluency",
+      measure == "WS_growth" ~ "Writing Skills",
+      TRUE ~ measure
+    )
+  )
+
+# Reordering measures
+long_data0809$measure <- factor(
+  long_data0809$measure,
+  levels = c(
+    "Reading Comprehension", 
+    "Letter-Word Identification", 
+    "Reading Fluency", 
+    "Writing Assessment", 
+    "Writing Fluency",
+    "Writing Skills",
+    "Calculation", 
+    "Math Fluency"
+  )
+)
+
+#Year 2008-2009
+violin_0809 <- subset(long_data0809, year == "2008-2009")
+
+# Creating the subset violin plot for 2008-2009
+ggplot(violin_0809, aes(x = measure, y = growth, fill = measure)) +
+  geom_violin(trim = FALSE, alpha = 0.8) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "blue") + # Add median as a blue point
+  stat_summary(fun = median, geom = "line", aes(group = 1), color = "blue", linetype = "solid") + # Connect medians with a line
+  scale_fill_brewer(palette = "Set2") + 
+  labs(
+    title = "Distribution of Growth Measures (2008-2009)", 
+    subtitle = "Analysis of Various Measures Across the Year", 
+    x = "Academic Measure", 
+    y = "Growth Value" 
+  ) +
+  theme_minimal(base_size = 15) + 
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"), 
+    axis.text.y = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold", size = 14), 
+    axis.title.y = element_text(face = "bold", size = 14), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5), 
+    plot.subtitle = element_text(size = 14, hjust = 0.5), 
+    legend.position = "none" 
+  )
+```
+
+```{r violin-1516}
+# Violin plot for measures across 2015-2016
+#Renaming measures
+long_data1516 <- long_data %>%
+  filter(year == "2015-2016") %>%
+  mutate(
+    measure = case_when(
+      measure == "CALC_growth" ~ "Calculation",
+      measure == "MF_growth" ~ "Math Fluency",
+      measure == "RC_growth" ~ "Reading Comprehension",
+      measure == "LWID_growth" ~ "Letter-Word Identification",
+      measure == "WA_growth" ~ "Writing Assessment",
+      measure == "RF_growth" ~ "Reading Fluency",
+      measure == "WF_growth" ~ "Writing Fluency",
+      measure == "WS_growth" ~ "Writing Skills",
+      TRUE ~ measure
+    )
+  )
+
+# Reordering measures
+long_data1516$measure <- factor(
+  long_data1516$measure,
+  levels = c(
+    "Reading Comprehension", 
+    "Letter-Word Identification", 
+    "Reading Fluency", 
+    "Writing Assessment", 
+    "Writing Fluency",
+    "Writing Skills",
+    "Calculation", 
+    "Math Fluency"
+  )
+)
+
+#Year 2015-2016
+violin_1516 <- subset(long_data1516, year == "2015-2016")
+
+# Creating the subset violin plot for 2015-2016
+ggplot(violin_1516, aes(x = measure, y = growth, fill = measure)) +
+  geom_violin(trim = FALSE, alpha = 0.8) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "blue") + 
+  stat_summary(fun = median, geom = "line", aes(group = 1), color = "blue", linetype = "solid") + 
+  scale_fill_brewer(palette = "Set2") + 
+  labs(
+    title = "Distribution of Growth Measures (2015-2016)", 
+    subtitle = "Analysis of Various Measures Across the Year", 
+    x = "Academic Measure", 
+    y = "Growth Value" 
+  ) +
+  theme_minimal(base_size = 15) + 
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"), 
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 14), 
+    axis.title.y = element_text(face = "bold", size = 14), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5), 
+    plot.subtitle = element_text(size = 14, hjust = 0.5), 
+    legend.position = "none"
+  )
+```
+
+```{r violin-1617}
+# Violin plot for measures across 2016-2017
+#Renaming measures
+long_data1617 <- long_data %>%
+  filter(year == "2016-2017") %>%
+  mutate(
+    measure = case_when(
+      measure == "CALC_growth" ~ "Calculation",
+      measure == "MF_growth" ~ "Math Fluency",
+      measure == "RC_growth" ~ "Reading Comprehension",
+      measure == "LWID_growth" ~ "Letter-Word Identification",
+      measure == "WA_growth" ~ "Writing Assessment",
+      measure == "RF_growth" ~ "Reading Fluency",
+      measure == "WF_growth" ~ "Writing Fluency",
+      measure == "WS_growth" ~ "Writing Skills",
+      TRUE ~ measure
+    )
+  )
+
+# Reordering measures
+long_data1617$measure <- factor(
+  long_data1617$measure,
+  levels = c(
+    "Reading Comprehension", 
+    "Letter-Word Identification", 
+    "Reading Fluency", 
+    "Writing Assessment", 
+    "Writing Fluency",
+    "Writing Skills",
+    "Calculation", 
+    "Math Fluency"
+  )
+)
+
+#Year 2016-2017
+violin_1617 <- subset(long_data1617, year == "2016-2017")
+
+# Creating the subset violin plot for 2016-2017
+ggplot(violin_1617, aes(x = measure, y = growth, fill = measure)) +
+  geom_violin(trim = FALSE, alpha = 0.8) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "blue") + 
+  stat_summary(fun = median, geom = "line", aes(group = 1), color = "blue", linetype = "solid") +
+  scale_fill_brewer(palette = "Set2") + 
+  labs(
+    title = "Distribution of Growth Measures (2016-2017)", 
+    subtitle = "Analysis of Various Measures Across the Year", 
+    x = "Academic Measure", 
+    y = "Growth Value" 
+  ) +
+  theme_minimal(base_size = 15) + 
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"), 
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 14), 
+    axis.title.y = element_text(face = "bold", size = 14), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5), 
+    plot.subtitle = element_text(size = 14, hjust = 0.5), 
+    legend.position = "none"
+  )
+```
+
+```{r violin-2324}
+# Violin plot for measures across 2023-2024
+#Renaming measures
+long_data2324 <- long_data %>%
+  filter(year == "2023-2024") %>%
+  mutate(
+    measure = case_when(
+      measure == "CALC_growth" ~ "Calculation",
+      measure == "MF_growth" ~ "Math Fluency",
+      measure == "RC_growth" ~ "Reading Comprehension",
+      measure == "LWID_growth" ~ "Letter-Word Identification",
+      measure == "WA_growth" ~ "Writing Assessment",
+      measure == "RF_growth" ~ "Reading Fluency",
+      measure == "WF_growth" ~ "Writing Fluency",
+      measure == "WS_growth" ~ "Writing Skills",
+      TRUE ~ measure
+    )
+  )
+
+# Reordering measures
+long_data2324$measure <- factor(
+  long_data2324$measure,
+  levels = c(
+    "Reading Comprehension", 
+    "Letter-Word Identification", 
+    "Reading Fluency", 
+    "Writing Assessment", 
+    "Writing Fluency",
+    "Writing Skills",
+    "Calculation", 
+    "Math Fluency"
+  )
+)
+
+#Year 2015-2016
+violin_2324 <- subset(long_data2324, year == "2023-2024")
+
+# Creating the subset violin plot for 2023-2024
+ggplot(violin_2324, aes(x = measure, y = growth, fill = measure)) +
+  geom_violin(trim = FALSE, alpha = 0.8) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "blue") + 
+  stat_summary(fun = median, geom = "line", aes(group = 1), color = "blue", linetype = "solid") +
+  scale_fill_brewer(palette = "Set2") + 
+  labs(
+    title = "Distribution of Growth Measures (2023-2024)", 
+    subtitle = "Analysis of Various Measures Across the Year", 
+    x = "Academic Measure", 
+    y = "Growth Value" 
+  ) +
+  theme_minimal(base_size = 15) + 
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"), 
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 14), 
+    axis.title.y = element_text(face = "bold", size = 14), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0.5), 
+    plot.subtitle = element_text(size = 14, hjust = 0.5), 
+    legend.position = "none"
+  )
+```
+
+
+## Research Question 2
 ```{r}
 #Domain bar charts for Reading, Writing and Math per year. 
 
