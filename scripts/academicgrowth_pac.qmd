@@ -620,7 +620,7 @@ long_data2324$measure <- factor(
   )
 )
 
-#Year 2015-2016
+#Year 2023-2024
 violin_2324 <- subset(long_data2324, year == "2023-2024")
 
 # Creating the subset violin plot for 2023-2024
