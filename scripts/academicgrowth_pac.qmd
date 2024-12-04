@@ -279,6 +279,9 @@ averages_data2$reading <- round(averages_data2$reading, 2)
 #Writing
 averages_data2$writing <- (averages_data2$WA_growth + averages_data2$WF_growth + averages_data2$WS_growth) / 3
 averages_data2$writing <- round(averages_data2$writing, 2)
+
+averages_data2$math <- (averages_data2$CALC_growth + averages_data2$MF_growth) / 2
+averages_data2$math <- round(averages_data2$math, 2)
 ```
 
 ```{r grand-means}
@@ -334,4 +337,56 @@ kable (merged_means,
 #  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
 
+```{r}
+#Domain bar charts for Reading, Writing and Math per year. 
 
+#Writing 
+ggplot(writing_by_year, aes(x = year, y = mean_writing, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Average Writing Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Reading
+ggplot(reading_by_year, aes(x = year, y = mean_reading, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Average Reading Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Math
+ggplot(math_by_year, aes(x = year, y = mean_math, fill = year)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Average Math Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+
+#Merged_means tidy data set 
+
+merged_means_tidy <- merged_means %>% 
+  pivot_longer(
+    cols = starts_with("mean_"),        
+    names_to = "subject",             
+    values_to = "score") %>%
+  mutate(subject = sub("mean_", "", subject))
+
+#All
+ggplot(merged_means_tidy, aes(x = subject, y = score, fill = subject)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~year) +
+  theme_minimal() +
+  labs(
+    title = "Average Growth by Year",
+    x = "Year",
+    y = "Growth"
+  )
+```
