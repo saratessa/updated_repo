@@ -1,0 +1,50 @@
+---
+title: "Longitudinal Analysis of Academic Growth Patterns at Morningside Academy:
+  A Five-Year Assessment Study"
+author:
+- name: Saratessa Palos
+- name: Will Aragelov
+- name: Marcus Cumberbatch
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document:
+    number_sections: true
+fontfamily: mathpazo
+fontsize: 11pt
+geometry: margin=1in
+#bibliography: references.bib
+#csl: apa.csl
+abstract: |
+  This study analyzed longitudinal assessment data from Morningside Academy...
+---
+
+```{r setup, include=FALSE}
+# Include libraries here
+library(here)
+library(readr)
+library(tidyverse)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(car)
+library(lme4)
+library(lmerTest)
+library(emmeans)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+# Methods
+
+# Results
+
+# Discussion
+
+# Conclusion
+
+# References
