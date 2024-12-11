@@ -336,6 +336,7 @@ kable (merged_means,
 #  group_by(year) %>% 
 #  mutate(read_by_year = mean(RC_growth, na.rm = TRUE))
 ```
+<<<<<<< Updated upstream
 
 ## Research Question 1
 
@@ -702,3 +703,5 @@ ggplot(merged_means_tidy, aes(x = subject, y = score, fill = subject)) +
     y = "Growth"
   )
 ```
+=======
+>>>>>>> Stashed changes

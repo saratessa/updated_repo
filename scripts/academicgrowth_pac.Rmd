@@ -14,7 +14,8 @@ geometry: margin=1in
 #bibliography: references.bib
 #csl: apa.csl
 abstract: |
-  This study analyzed longitudinal assessment data from Morningside Academy...
+This study analyzed longitudinal assessment data from Morningside Academy, a private lab school specializing in behavioral education approaches for students with academic challenges. We examined student performance across four academic years (2008-2009, 2015-2016, 2016-2017, and 2023-2024) using secondary data analysis of scores from multiple standardized assessments including Woodcock-Johnson (WJ), Iowa Test of Basic Skills (ITBS), and Iowa Assessments (IA). The dataset comprises student assessment scores from four academic years (2023-2024: n=91, 2016-2017: n=88, 2015-2016: n=91, and 2008-2009: n=82). 
+Growth calculations were performed on reading, writing, and mathematics measures to analyze progress between fall and spring testing periods. Data processing involved standardizing student identifiers, calculating growth scores, and merging datasets for comprehensive analysis. Results provide insights into the effectiveness of the MMGI educational approach through examination of academic growth patterns across different domains and years.
 ---
 
 ```{r setup, include=FALSE}
@@ -35,8 +36,16 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 # Introduction
+The Morningside Model of Generative Instruction (MMGI) is a research based, empirically validated educational model shown to be extremely effective in developing competent learners. Morningside Academy, established in Seattle, Washington, utilizes the MMGI approach to help elementary and middle school children who are one or more years behind expected grade level to catch up and excel academically. 
+
+The school guarantees that students will gain at least two grade levels in their area of greatest deficit within one academic year. Unlike traditional special education models that emphasize compensatory strategies, Morningside directly addresses student deficits through performance-based placement and systematic instruction. 
+
+This study aims to validate these educational approaches through analysis of standardized assessment data collected over four academic years. The use of multiple assessment systems (WJ, ITBS, and IA) provides complementary measures of student achievement across reading, writing, and mathematics domains. Understanding patterns of academic growth is crucial for evaluating educational effectiveness and informing instructional practices.
+
+To better assess the efficacy of the MMGI, we analyzed 1) patterns of academic growth across different assessment types (math, reading, and writing) between fall and spring testing periods, and 2) how patterns for these domains vary across years analyzed.
 
 # Methods
+This study analyzed student assessment data from five academic years at Morningside Academy (2008-2009, 2015-2016, 2016-2017, and 2023-2024). Data cleaning and analysis were conducted using R statistical software with tidyverse, readxl, corrplot, viridis, and gridExtra packages. For each academic year, fall and spring assessment scores were processed separately. All datasets required standardization of ceiling scores (converting ">12.9" to "12.9" and "<3.0" to "3.0"), and numeric conversion of assessment scores. Growth scores were calculated by subtracting fall scores from spring scores across multiple academic measures including Reading Comprehension (RC), Letter-Word Identification (LWID), Word Attack (WA), Reading Fluency (RF), Writing Fluency (WF), Writing Samples (WS), Calculation (CALC), and Math Fluency (MF). Student names were standardized across datasets using a custom function to handle different name formats (LastName, FirstName vs. FirstName LastName). The datasets were then merged using bind_rows after selecting standardized names, year identifiers, and growth measures.
 
 # Results
 
