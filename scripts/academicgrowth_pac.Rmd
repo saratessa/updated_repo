@@ -219,7 +219,45 @@ A repeated measures ANOVA was conducted to examine the effect of Assessment Type
  
 Post-hoc pairwise comparison tests using a Bonferroni correction revealed that growth in `Reading` was significantly lower than in `Math` (*M*difference = -0.92, *p* = 0.015) and `Writing` (*M*difference = -1.10, *p* = 0.003). No significant differences emerged between `Math` and `Writing` (*p* = 1.00), however. These comparisons suggest that students experienced the least academic growth in reading, while growth in math and writing was statistically similar (refer to the ANOVA model output below for full transparency). Results are shown in Fig. 1.
 
+```{r rq1-output, echo=FALSE}
+# ANOVA summary (PRINT)
+summary(aov_analysis)
 
+# ANOVA Post Hoc: Bonferroni (uneven groups)...(PRINT)
+pairwise.t.test(analysis_long$Growth_Score, analysis_long$Assessment_Type, 
+                p.adjust.method = "bonferroni")
+```
+
+```{r rq1-visual, echo=FALSE}
+#Bar plot
+anova_analysis <- analysis_long %>%
+  group_by(Assessment_Type) %>%
+  summarize(
+    Mean_Growth = mean(Growth_Score, na.rm = TRUE),
+    SD = sd(Growth_Score, na.rm = TRUE),
+    N = n(),
+    SE = SD / sqrt(N)
+  )
+
+ggplot(anova_analysis, aes(x = Assessment_Type, y = Mean_Growth)) +
+  geom_bar(stat = "identity", color = "black", fill = "lightgrey", width = 0.6) +
+  geom_errorbar(aes(ymin = Mean_Growth - SE, ymax = Mean_Growth + SE), width = 0.1) +
+  labs(
+    title = "Fig. 1",
+    subtitle = "Academic Growth by Assessment Type",
+    x = "Assessment Type",
+    y = "Mean Growth Score"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5, face = "bold"),
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 12), 
+    axis.title.y = element_text(face = "bold", size = 12), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0), 
+    plot.subtitle = element_text(face = "italic", size = 12, hjust = 0),
+    )
+```
 
 
 
