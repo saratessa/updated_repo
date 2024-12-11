@@ -121,7 +121,27 @@ merged_means <- left_join(merged_means, math_by_year, by = "year")
 merged_means
 ```
 
+Our analytic strategy first involved obtaining aggregate scores of different growth measure types across participants. Reading comprehension, letter-word identification, and reading fluency measures were coalesced into composite scores. Next, we repeated this process for writing, by combining writing fluency, writing samples, and word attack growth scores. Finally, we combined the two assessment measures from mathematics, CALC as well as math fluency, into averaged scores. We then obtained grand means for each of the three academic domains (`Reading` , `Writing` , and `Math`). Refer to table 1 for a breakdown of these means.
 
+```{r avgs-table, echo=FALSE}
+#Kable table of merged means
+merged_means %>%
+  kbl(
+    col.names = c("Year", "Mean Reading", "Mean Writing", "Mean Math"),
+    caption = "Table 1: Average Growth by Academic Domain",
+    booktabs = TRUE
+  ) %>%
+  kable_styling(
+    full_width = FALSE, 
+    position = "center"
+  ) %>%
+  add_header_above(c(" " = 1, "Academic Growth Averages" = 3)) %>%
+  footnote(
+    general = "Note: NaN indicates missing data for that academic year.",
+    footnote_as_chunk = TRUE,
+    threeparttable = TRUE
+  )
+```
 
 
 
