@@ -100,19 +100,19 @@ mean_math <- round(mean_math, 2)
 #Reading
 reading_by_year <- analysis_avgs %>% 
   group_by(year) %>% 
-  summarise(mean_reading = mean(reading, na.rm = TRUE))
+  summarize(mean_reading = round(mean(reading, na.rm = TRUE), 2))
 reading_by_year
 
 #Writing
 writing_by_year <- analysis_avgs %>% 
   group_by(year) %>% 
-  summarise(mean_writing = mean(writing, na.rm = TRUE))
+  summarize(mean_writing = round(mean(writing, na.rm = TRUE), 2))
 writing_by_year
 
 #Math
 math_by_year <- analysis_avgs %>% 
   group_by(year) %>% 
-  summarise(mean_math = mean(math, na.rm = TRUE))
+  summarize(mean_math = round(mean(math, na.rm = TRUE), 2))
 math_by_year
 
 #Merged table for academic growth averages, by year
@@ -143,7 +143,81 @@ merged_means %>%
   )
 ```
 
+In addition to means analyses, we conducted statistical tests to observe mean comparisons of academic domains, on aggregate. These tests allowed us to account for non-unique participant identification numbers within the current data, and further enabled us to observe potential differences in growth patterns across various academic years.
 
+### Research Question 1
+
+#### *Analytic Strategy*
+A repeated measures analysis of variance (ANOVA) was conducted via the `aov` function in R to quantify patterns of academic growth across different assessment measure types. Individual measure types were aggregated by domain across participants to create three, composite academic domains of math, reading, and writing.. The repeated measures approach was utilized because growth scores were measured several times for each student across several assessment types within a given year (as well as during multiple years). Thus, we treated `assessment_type` as a within-subject factor. Since the data included non-unique student IDs, the model accounted for repeated measures per student. Post-hoc pairwise comparisons with Bonferroni correction were conducted to determine specific differences between the three assessment types, to account for uneven sample sizes within `year`.
+
+#### *Results*
+```{r rq1-results, include=FALSE}
+# Repeated Measures ANOVA: testing
+# Transforming data to long format
+analysis_long <- analysis_avgs %>% 
+  pivot_longer(cols = c(reading, writing, math),
+               names_to = "Assessment_Type",
+               values_to = "Growth_Score")
+
+#Removing extraneous columns
+analysis_long <- analysis_long %>% 
+  select(-c(RC_growth:MF_growth))
+
+#Renaming measures
+analysis_long <- analysis_long %>%
+  mutate(
+    Assessment_Type = case_when(
+      Assessment_Type == "math" ~ "Math",
+      Assessment_Type == "reading" ~ "Reading",
+      Assessment_Type == "writing" ~ "Writing",
+      TRUE ~ Assessment_Type
+    )
+  )
+
+# Variable Structure Check
+str(analysis_long)
+
+# Changing variables from characters to factors
+analysis_long$id <- as.factor(analysis_long$id)
+analysis_long$Assessment_Type <- as.factor(analysis_long$Assessment_Type)
+analysis_long$year <- as.factor(analysis_long$year)
+
+# Running a repeated Measures ANOVA to analyze RQ1a
+aov_analysis <- aov(Growth_Score ~ Assessment_Type + year + Error(id/(Assessment_Type * year)), 
+                  data = analysis_long)
+
+#Transforming data into wide format
+analysis_wide <- analysis_long %>% 
+  pivot_wider(names_from = Assessment_Type, values_from = Growth_Score)
+```
+
+```{r inline-anova, include=FALSE}
+# For inline code:
+f1 <- 5.81
+df1 <- 2
+df2 <- 259
+pval1 <- .003
+
+f2 <- 9.27
+df3 <- 3
+df4 <- 259
+pval2 <- .001
+
+f3 <- 0.62
+df5 <- 1
+df6 <- 402
+pval3 <- .43
+
+# *F*(`r df1`, `r df2`) = `r round(f1, 2)`, *p* < `r ifelse(p_val1 < 0.001, ".001", format(p_val1, digits=3))`
+
+# *F*(`r df3`, `r df4`) = `r round(f2, 2)`, *p* < `r ifelse(p_val2 < 0.001, ".001", format(p_val2, digits=3))`
+
+# *F*(`r df5`, `r df6`) = `r round(f3, 2)`, *p* < `r ifelse(p_val3 < 0.001, ".001", format(p_val3, digits=3))`
+```
+
+A repeated measures ANOVA was conducted to examine the effect of Assessment Type (reading, writing, and math) on academic growth scores. Results showed a significant main effect of `assessment_type` , *F*(`r df1`, `r df2`) = `r round(f1, 2)`, *p* < `r ifelse(pval1 < 0.001, ".001", format(pval1, digits=3))`, indicating that growth scores varied across assessment types. Additionally, there was a significant main effect of `year` , *F*(`r df3`, `r df4`) = `r round(f2, 2)`, *p* < `r ifelse(pval2 < 0.001, ".001", format(pval2, digits=3))`, suggesting that academic growth differed across academic years. However, the interaction between `assessment_type` and `year` was not significant, *F*(`r df5`, `r df6`) = `r round(f3, 2)`, *p* < `r ifelse(pval3 < 0.001, ".001", format(pval3, digits=3))`, indicating that growth patterns across assessments were consistent over time.
+ 
+Post-hoc pairwise comparison tests using a Bonferroni correction revealed that growth in `Reading` was significantly lower than in `Math` (*M*difference = -0.92, *p* = 0.015) and `Writing` (*M*difference = -1.10, *p* = 0.003). No significant differences emerged between `Math` and `Writing` (*p* = 1.00), however. These comparisons suggest that students experienced the least academic growth in reading, while growth in math and writing was statistically similar (refer to the ANOVA model output below for full transparency). Results are shown in Fig. 1.
 
 
 
