@@ -42,6 +42,95 @@ knitr::opts_chunk$set(echo = TRUE)
 # Methods
 
 # Results
+```{r read-data, include=FALSE}
+here::here()
+data <- read.csv("~/Desktop/updated_repo/data/updated.csv")
+```
+
+```{r datasets, include=FALSE}
+#'analysis_data' (clean version of 'data' with 10 variables, and without years 2009-2010) 
+
+#removing rows for 2009-2010 data
+analysis_data <- data %>%
+  filter(year != "2009-2010")
+
+#removing columns WJID_growth to Math_growth
+columns_to_remove <- which(names(analysis_data) == "WJ_LWID_growth"):which(names(analysis_data) == "Math_growth")
+analysis_data <- analysis_data[, -columns_to_remove]
+
+#Shifting 'ID' column to left of 'year'
+analysis_data <- analysis_data[, c("id", "year", setdiff(names(analysis_data), c("id", "year")))]
+```
+
+```{r analysis-avgs, include=FALSE}
+#Adding merged means columns (across academic domain measures) to 'data2' frame, for secondary research question
+analysis_avgs <- analysis_data
+
+#Reading
+analysis_avgs$reading <- (analysis_avgs$RC_growth + analysis_avgs$LWID_growth + analysis_avgs$RF_growth) / 3
+analysis_avgs$reading <- round(analysis_avgs$reading, 2)
+
+#Writing
+analysis_avgs$writing <- (analysis_avgs$WA_growth + analysis_avgs$WF_growth + analysis_avgs$WS_growth) / 3
+analysis_avgs$writing <- round(analysis_avgs$writing, 2)
+
+#Math
+analysis_avgs$math <- (analysis_avgs$CALC_growth + analysis_avgs$MF_growth) / 2
+analysis_avgs$math <- round(analysis_avgs$math, 2)
+
+#Writing .csv file for data frame
+# write_csv(averages_data2, here::here("Desktop", "REORG'D FINAL", "data", "averages_data2.csv"))
+```
+
+```{r grand-means, include=FALSE}
+#Obtaining grand means for reading, writing, and math measures
+mean_reading <- mean(analysis_avgs$reading, na.rm = TRUE)
+mean_reading <- round(mean_reading, 2)
+mean_reading
+
+mean_writing <- mean(analysis_avgs$writing, na.rm = TRUE)
+mean_writing <- round(mean_writing, 2)
+
+mean_math <- mean(analysis_avgs$math, na.rm = TRUE)
+mean_math <- round(mean_math, 2)
+```
+
+```{r domain-avgs, include=FALSE}
+#Obtaining academic domain averages by year
+#Reading
+reading_by_year <- analysis_avgs %>% 
+  group_by(year) %>% 
+  summarise(mean_reading = mean(reading, na.rm = TRUE))
+reading_by_year
+
+#Writing
+writing_by_year <- analysis_avgs %>% 
+  group_by(year) %>% 
+  summarise(mean_writing = mean(writing, na.rm = TRUE))
+writing_by_year
+
+#Math
+math_by_year <- analysis_avgs %>% 
+  group_by(year) %>% 
+  summarise(mean_math = mean(math, na.rm = TRUE))
+math_by_year
+
+#Merged table for academic growth averages, by year
+merged_means <- left_join(reading_by_year, writing_by_year, math_by_year, by = "year")
+merged_means <- left_join(merged_means, math_by_year, by = "year")
+merged_means
+```
+
+
+
+
+
+
+
+
+
+
+
 
 # Discussion
 
