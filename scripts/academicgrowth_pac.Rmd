@@ -38,9 +38,8 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 # Methods
 
-
-
 # Results
+
 ```{r read-data, include=FALSE}
 here::here()
 data <- read.csv("~/Desktop/updated_repo/data/updated.csv")
@@ -147,9 +146,11 @@ In addition to means analyses, we conducted statistical tests to observe mean co
 ### Research Question 1
 
 #### *Analytic Strategy*
+
 A repeated measures analysis of variance (ANOVA) was conducted via the `aov` function in R to quantify patterns of academic growth across different assessment measure types. Individual measure types were aggregated by domain across participants to create three, composite academic domains of math, reading, and writing.. The repeated measures approach was utilized because growth scores were measured several times for each student across several assessment types within a given year (as well as during multiple years). Thus, we treated `assessment_type` as a within-subject factor. Since the data included non-unique student IDs, the model accounted for repeated measures per student. Post-hoc pairwise comparisons with Bonferroni correction were conducted to determine specific differences between the three assessment types, to account for uneven sample sizes within `year`.
 
 #### *Results*
+
 ```{r rq1-results, include=FALSE}
 # Repeated Measures ANOVA: testing
 # Transforming data to long format
@@ -214,8 +215,8 @@ pval3 <- .43
 # *F*(`r df5`, `r df6`) = `r round(f3, 2)`, *p* < `r ifelse(p_val3 < 0.001, ".001", format(p_val3, digits=3))`
 ```
 
-A repeated measures ANOVA was conducted to examine the effect of Assessment Type (reading, writing, and math) on academic growth scores. Results showed a significant main effect of `assessment_type` , *F*(`r df1`, `r df2`) = `r round(f1, 2)`, *p* < `r ifelse(pval1 < 0.001, ".001", format(pval1, digits=3))`, indicating that growth scores varied across assessment types. Additionally, there was a significant main effect of `year` , *F*(`r df3`, `r df4`) = `r round(f2, 2)`, *p* < `r ifelse(pval2 < 0.001, ".001", format(pval2, digits=3))`, suggesting that academic growth differed across academic years. However, the interaction between `assessment_type` and `year` was not significant, *F*(`r df5`, `r df6`) = `r round(f3, 2)`, *p* < `r ifelse(pval3 < 0.001, ".001", format(pval3, digits=3))`, indicating that growth patterns across assessments were consistent over time.
- 
+A repeated measures ANOVA was conducted to examine the effect of Assessment Type (reading, writing, and math) on academic growth scores. Results showed a significant main effect of `assessment_type` , *F*(`r df1`, `r df2`) = `r round(f1, 2)`, *p* \< `r ifelse(pval1 < 0.001, ".001", format(pval1, digits=3))`, indicating that growth scores varied across assessment types. Additionally, there was a significant main effect of `year` , *F*(`r df3`, `r df4`) = `r round(f2, 2)`, *p* \< `r ifelse(pval2 < 0.001, ".001", format(pval2, digits=3))`, suggesting that academic growth differed across academic years. However, the interaction between `assessment_type` and `year` was not significant, *F*(`r df5`, `r df6`) = `r round(f3, 2)`, *p* \< `r ifelse(pval3 < 0.001, ".001", format(pval3, digits=3))`, indicating that growth patterns across assessments were consistent over time.
+
 Post-hoc pairwise comparison tests using a Bonferroni correction revealed that growth in `Reading` was significantly lower than in `Math` (*M*difference = -0.92, *p* = 0.015) and `Writing` (*M*difference = -1.10, *p* = 0.003). No significant differences emerged between `Math` and `Writing` (*p* = 1.00), however. These comparisons suggest that students experienced the least academic growth in reading, while growth in math and writing was statistically similar (refer to the ANOVA model output below for full transparency). Results are shown in Fig. 1.
 
 ```{r rq1-output, echo=FALSE}
@@ -261,9 +262,11 @@ ggplot(anova_analysis, aes(x = Assessment_Type, y = Mean_Growth)) +
 ### Research Question 2
 
 #### *Analytic Strategy*
+
 To examine how academic growth varied across different academic years, a linear mixed-effects model (LMM) was conducted, using the `lmer` function within R, in addition to `car` , `lme4` , and `lmertest` for relevant statistics of significance in the output. Academic `year` was utilized as a fixed effect, with student ID included as a random effect to account for repeated measurements, due to certain students appearing in the data set multiple times across years. This method allowed us to model within-student variability while estimating the average effect of academic year on academic growth in reading, writing, and math. The LMM was fit using restricted maximum likelihood (REML) for unbiased estimates of fixed and random effects.
 
 ### Results
+
 ```{r rq2-lmm, include=FALSE}
 #LMM for reading (PRINT MODEL OUTPUTS)
 #LMM
@@ -298,7 +301,8 @@ lmm_math
 ```
 
 #### *Reading*
-A linear mixed-effects model (LMM) was conducted to assess the effect of academic year on reading growth scores, with year 2008-2009 serving as a reference or baseline year for comparisons. Academic year was treated as a fixed effect, and student ID was entered as a random intercept to account for repeated measurements. Results suggest that academic year significantly predicted reading scores, *F*(3, 276) = 14.24, *p* < .001. Students in the 2015-2016 academic year scored significantly higher than the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t*(276) = 6.04, *p* < .001. Similarly, students in 2016-2017 also showed significant growth relative to the baseline, *B* = 0.87, *SE* = 0.16, t(276) = 5.53, *p* < .001. However, no significant difference was found between the 2023-2024 year and the reference year, *B* = -0.10, *SE* = 0.16, *t*(276) = -0.62, *p* = .533. Refer to the linear mixed model output (model is identical for reading, writing, and math) below for full transparency. Results for reading are shown in Fig. 2.
+
+A linear mixed-effects model (LMM) was conducted to assess the effect of academic year on reading growth scores, with year 2008-2009 serving as a reference or baseline year for comparisons. Academic year was treated as a fixed effect, and student ID was entered as a random intercept to account for repeated measurements. Results suggest that academic year significantly predicted reading scores, *F*(3, 276) = 14.24, *p* \< .001. Students in the 2015-2016 academic year scored significantly higher than the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t*(276) = 6.04, *p* \< .001. Similarly, students in 2016-2017 also showed significant growth relative to the baseline, *B* = 0.87, *SE* = 0.16, t(276) = 5.53, *p* \< .001. However, no significant difference was found between the 2023-2024 year and the reference year, *B* = -0.10, *SE* = 0.16, *t*(276) = -0.62, *p* = .533. Refer to the linear mixed model output (model is identical for reading, writing, and math) below for full transparency. Results for reading are shown in Fig. 2.
 
 ```{r rq2-model, echo=FALSE}
 #PRINT LMM OUTPUT
@@ -327,7 +331,8 @@ ggplot(analysis_avgs, aes(x = year, y = reading)) +
 ```
 
 #### *Writing*
-A second, identical linear mixed-effects model was applied to examine writing growth scores. Academic year significantly predicted writing scores, *F* (3, 276) = 14.24, *p* < .001. Writing scores improved significantly in 2015-2016, *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* < .001 and 2016-2017, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* < .001 compared to 2008-2009. The difference between 2023-2024 and the reference year was not significant, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. Results for writing are shown in Fig. 3.
+
+A second, identical linear mixed-effects model was applied to examine writing growth scores. Academic year significantly predicted writing scores, *F* (3, 276) = 14.24, *p* \< .001. Writing scores improved significantly in 2015-2016, *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* \< .001 and 2016-2017, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* \< .001 compared to 2008-2009. The difference between 2023-2024 and the reference year was not significant, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. Results for writing are shown in Fig. 3.
 
 ```{r rq2-visuals-writing, echo=FALSE}
 #Line plot: writing, fig 3
@@ -351,7 +356,8 @@ ggplot(analysis_avgs, aes(x = year, y = writing)) +
 ```
 
 #### *Math*
-A third, identical linear mixed-effects model was conducted to examine the effect of academic year on math growth scores. Academic year significantly predicted math scores, *F* (3, 276) = 14.24, *p* < .001. Math scores were significantly higher in the 2015-2016 academic year compared to the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* < .001. Similarly, students in 2016-2017 scored significantly higher than those in the baseline year, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* < .001. In contrast, students’ math scores in 2023-2024 did not significantly differ from the reference year, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. The low variance value was essentially zero (7.725e-16), between reading, writing, and math for the model which suggests that most of the variability in domain scores can be attributed to the effects of year, rather than between-student effects. Results for math are shown in Fig. 4.
+
+A third, identical linear mixed-effects model was conducted to examine the effect of academic year on math growth scores. Academic year significantly predicted math scores, *F* (3, 276) = 14.24, *p* \< .001. Math scores were significantly higher in the 2015-2016 academic year compared to the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* \< .001. Similarly, students in 2016-2017 scored significantly higher than those in the baseline year, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* \< .001. In contrast, students’ math scores in 2023-2024 did not significantly differ from the reference year, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. The low variance value was essentially zero (7.725e-16), between reading, writing, and math for the model which suggests that most of the variability in domain scores can be attributed to the effects of year, rather than between-student effects. Results for math are shown in Fig. 4.
 
 ```{r rq2-visuals-math, echo=FALSE}
 #Line plot: math, fig 4
@@ -374,11 +380,35 @@ ggplot(analysis_avgs, aes(x = year, y = math)) +
     )
 ```
 
+# **Discussion**
 
+The main goal of this research paper is to provide evidence for the effectiveness of the Morningside Model of Generative Instruction for children behind in their educational capabilities. We used four waves of longitudinal data from the Morningside Academy in Seattle, Washington, specifically 2008-2009; 2015-2016; 2016-2017, and 2023-2024. Focusing on multiple waves allowed us to establish a more precise view of the educational process in this institution and account for fluctuations across the years and domains. Our main focus of the analysis was on the macro level of testing used, the pre- and post-test, as this is the participants' most important measurement of growth (Street & Johnson, 2014). The descriptive statistics showed that this model is effective in educational settings and provided evidence that using scientific learning and a task-oriented environment supports the progress of students, similar findings have been documented in previous research (Johnson & Street, 2013). Both reading, writing, and math domain scores are higher compared to the initial ones, those result echoes previous research conducted in the scholarship (Johnson & Street, 2004). Being effective in this setting and providing the promised educational advances is crucial for the funding of the academy, considering the vast dependency on tuition. This model can be sufficient, however, more governmental support might be beneficial in the long term, reducing the threat of possible closure due to a year or two of lower results, which can be based on external factors and not on the quality of education.
 
+Our first research question concerns the growth in the academic domain for the chosen period, we found support that growth scores varied across assessment types. The data showed significantly lower reading growth in comparison to math and writing, which were on similar levels. Special education is beneficial for students with disabilities and clinical disorders and improves their reading, math, and writing (Mayes & Calhoun, 2006). Focusing on math and writing growth, we can conclude that the MMGI model yields a positive effect on students in these institutions, improving their abilities. These findings contradict emerging evidence on the effectiveness of special education that questions the practice (Kvande et al., 2019), or found a negative correlation between special education and reading and math abilities in the case of preschoolers (Sullivan & Field, 2013), and math and language skills (Lekhal, 2018). When considering reading, improvement has been documented (Ehrhardt et al., 2013), contradicting our data. The reason for the limited reading growth in our sample might be the ceiling effect, due to the measurements. Additionally, math and writing are usually domains more likely to require interventions. There are vast differences in how special education is positioned and conducted in different countries and contexts, therefore more research will be needed to expand on these contradictory findings.
 
-# Discussion
+Our second research question considers the waves of the data, revealing significant variations across the sample years. There was a substantial improvement in growth in the years 2015 to 2017 in all three domains of interest, while 2023-2024 is more similar to the baseline period of the study (2008-2009). We can explain these results in part with the global events influencing the educational system, such as the economic crisis of 2008 and the COVID-19 pandemic. Research has found that education is suffering in times of crisis (Barakat et al., 2010), resources are limited and children are suffering disproportionately (Shafiq, 2010), especially those in marginalized communities (Lovell & Isaacs, 2008). Similarly, the pandemic had an overall negative effect on the educational system due to the constant changes, uncertainty, digital learning (Pokhrel & Chhetri, 2021), and especially for the children with special needs (Mete Yesil et al., 2022). It is unclear whether the mentioned global crises are the sole reasons for the base and current results to be significantly lower than the ones from the 2015-2017 period, more research will be required to answer this question.
 
-# Conclusion
+## **Implications**
 
-# References
+This study provides additional knowledge to the literature in the field of special education, especially scientifically-based learning tools and practical tasks. The findings can be used to inform practices and promote these educational methods for additional implementation across institutions and countries. The study provides data about the student’s growth and capabilities that can be used in educational conversation, policy discussions, and development and has implications for the funding of such academies. Our findings can be beneficial for governmental and state agencies that are centering their efforts to establish and work on educational practices.
+
+## **Limitations**
+
+One of the limitations of our study is failing to account for individual differences can be beneficial for providing a more detailed picture of the effectiveness of MMGI with the inclusion of comparative data across demographics. Additionally, there were a variety of testing methods used for the macro-level establishment of the student’s growth in the Morningside Academy in Seattle. We decided to choose only one of the used testing methods as a primary, future research can look to create a more comprehensive contribution including all testing methods. Examining the reasons for the students to join this type of school is an additional research question that requires attention, as there are contradicting findings surrounding the effectiveness of these institutions, it is important to investigate the characteristics of the participants, their backgrounds, and lived experiences. Follow-up with participants after their time in the academy and evaluating their progress and integration into the traditional school system is another valuable research inquiry.
+
+\newpage
+
+# **References**
+
+-   Barakat, B., Holler, J., Prettner, K., & Schuster, J. (2010). The impact of the economic crisis on labour and education in Europe (Working Paper 6/2010). Vienna Institute of Demography Working Papers. <https://www.econstor.eu/handle/10419/96975>
+-   Ehrhardt, J., Huntington, N., Molino, J., & Barbaresi, W. (2013). Special Education and Later Academic Achievement. Journal of Developmental & Behavioral Pediatrics, 34(2), 111. <https://doi.org/10.1097/DBP.0b013e31827df53f>
+-   Johnson, K. R., & Street, E. M. (2013). Response to intervention and precision teaching: Creating synergy in the classroom. Guilford Press.
+-   Johnson, P. D. K., & Street, P. D. E. M. (2004). The Morningside Model of Generative Instruction: What It Means to Leave No Child Behind. Cambridge Center for Behavioral Studies.
+-   Kvande, M. N., Bjørklund, O., Lydersen, S., Belsky, J., & Wichstrøm, L. (2019). Effects of special education on academic achievement and task motivation: A propensity-score and fixed-effects approach. European Journal of Special Needs Education, 34(4), 409–423. <https://doi.org/10.1080/08856257.2018.1533095>
+-   Lekhal, R. (2018). Does special education predict students’ math and language skills? European Journal of Special Needs Education, 33(4), 525–540. <https://doi.org/10.1080/08856257.2017.1373494>
+-   Mayes, S. D., & Calhoun, S. L. (2006). Frequency of reading, math, and writing disabilities in children with clinical disorders. Learning and Individual Differences, 16(2), 145–157. <https://doi.org/10.1016/j.lindif.2005.07.004>
+-   Mete Yesil, A., Sencan, B., Omercioglu, E., & Ozmert, E. N. (2022). The Impact of the COVID-19 Pandemic on Children With Special Needs: A Descriptive Study. Clinical Pediatrics, 61(2), 141–149. <https://doi.org/10.1177/00099228211050223>
+-   Pokhrel, S., & Chhetri, R. (2021). A Literature Review on Impact of COVID-19 Pandemic on Teaching and Learning. Higher Education for the Future, 8(1), 133–141. <https://doi.org/10.1177/2347631120983481>
+-   Shafiq, M. N. (2010). The Effect of an Economic Crisis on Educational Outcomes: An Economic Framework and Review of the Evidence (SSRN Scholarly Paper 1709045). Social Science Research Network. <https://papers.ssrn.com/abstract=1709045>
+-   Street, E. M., & Johnson, K. (2014). The Sciences of Learning, Instruction, and Assessment as Underpinnings of the Morningside Model of Generative Instruction. Acta de Investigación Psicológica, 4(3), 1773–1793. [https://doi.org/10.1016/S2007-4719(14)70979-2](https://doi.org/10.1016/S2007-4719(14)70979-2){.uri}
+-   Sullivan, A. L., & Field, S. (2013). Do preschool special education services make a difference in kindergarten reading and mathematics skills?: A propensity score weighting analysis. Journal of School Psychology, 51(2), 243–260. <https://doi.org/10.1016/j.jsp.2012.12.004>
