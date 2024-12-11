@@ -4,10 +4,10 @@ title: "Longitudinal Analysis of Academic Growth Patterns at Morningside Academy
 author: "Saratessa Palos, Will Arangelov, Marcus Cumberbatch"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     number_sections: true
+  html_document:
+    df_print: paged
 fontfamily: mathpazo
 fontsize: 11pt
 geometry: margin=1in
@@ -273,7 +273,7 @@ ggplot(anova_analysis, aes(x = Assessment_Type, y = Mean_Growth)) +
 
 #### *Analytic Strategy*
 
-To examine how academic growth varied across different academic years, a linear mixed-effects model (LMM) was conducted, using the `lmer` function within R, in addition to `car` , `lme4` , and `lmertest` for relevant statistics of significance in the output. Academic `year` was utilized as a fixed effect, with student ID included as a random effect to account for repeated measurements, due to certain students appearing in the data set multiple times across years. This method allowed us to model within-student variability while estimating the average effect of academic year on academic growth in reading, writing, and math. The LMM was fit using restricted maximum likelihood (REML) for unbiased estimates of fixed and random effects.
+To examine how academic growth varied across different academic years, a linear mixed-effects model (LMM) was conducted, using the `lmer` and `lm` functions within R, in addition to `car` , `lme4` , and `lmertest` for relevant statistics of significance in the LMM outputs. Academic `year` was utilized as a fixed effect, with student ID included as a random effect to account for repeated measurements, due to certain students appearing in the data set multiple times across years. This method allowed us to model within-student variability while estimating the average effect of academic year on academic growth in reading, writing, and math. The LMM was fit using restricted maximum likelihood (REML) for unbiased estimates of fixed and random effects.
 
 ### Results
 
@@ -289,32 +289,30 @@ analysis_avgs$year <- as.factor(analysis_avgs$year)
 lmm_reading <- lmer(reading ~ year + (1 | id), data = analysis_avgs)
 summary(lmm_reading)
 lmm_reading
-#Model Assumptions
-# par(mfrow = c(2, 2))
-# plot(lmm_reading)
+
+#setting 2008-2009 as reference year, as with reading
+levels(analysis_avgs$year)
+
+analysis_avgs$year <- as.factor(analysis_avgs$year)
+analysis_avgs$year <- relevel(analysis_avgs$year, ref = "2008-2009")
 
 #LMM for writing
-lmm_writing <- lmer(reading ~ year + (1 | id), data = analysis_avgs)
+lmm_writing <- lmer(writing ~ year + (1 | id), data = analysis_avgs)
 summary(lmm_writing)
 lmm_writing
-#Model Assumptions
-# par(mfrow = c(2, 2))
-# plot(lmm_writing)
+
 
 #LMM for math
-lmm_math <- lmer(reading ~ year + (1 | id), data = analysis_avgs)
-summary(lmm_math)
-lmm_math
-#Model Assumptions
-# par(mfrow = c(2, 2))
-# plot(lmm_math)
+lm_math <- lm(math ~ year, data = analysis_avgs)
+summary(lm_math)
+lm_math
 ```
 
 #### *Reading*
 
-A linear mixed-effects model (LMM) was conducted to assess the effect of academic year on reading growth scores, with year 2008-2009 serving as a reference or baseline year for comparisons. Academic year was treated as a fixed effect, and student ID was entered as a random intercept to account for repeated measurements. Results suggest that academic year significantly predicted reading scores, *F*(3, 276) = 14.24, *p* \< .001. Students in the 2015-2016 academic year scored significantly higher than the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t*(276) = 6.04, *p* \< .001. Similarly, students in 2016-2017 also showed significant growth relative to the baseline, *B* = 0.87, *SE* = 0.16, t(276) = 5.53, *p* \< .001. However, no significant difference was found between the 2023-2024 year and the reference year, *B* = -0.10, *SE* = 0.16, *t*(276) = -0.62, *p* = .533. Refer to the linear mixed model output (model is identical for reading, writing, and math) below for full transparency. Results for reading are shown in Fig. 2.
+A linear mixed-effects model (LMM) was conducted to assess the effect of academic year on reading growth scores, with year 2008-2009 serving as a reference, or baseline year for comparisons. Academic year was treated as a fixed effect, and student ID was entered as a random intercept to account for repeated measurements. Results suggest that academic year significantly predicted reading scores, *F*(3, 276) = 14.24, *p* < .001. Students in the 2015-2016 academic year scored significantly higher than the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t*(276) = 6.04, *p* < .001. Similarly, students in 2016-2017 also showed significant growth relative to the baseline, *B* = 0.87, *SE* = 0.16, t(276) = 5.53, *p* < .001. However, no significant difference was found between the 2023-2024 year and the reference year, *B* = -0.10, *SE* = 0.16, *t*(276) = -0.62, *p* = .533. Refer to the model outputs for reading, writing, and math below for full transparency. Results for reading are shown in Fig. 2.
 
-```{r rq2-model, echo=FALSE}
+```{r rq2-model-reading, echo=FALSE}
 #PRINT LMM OUTPUT
 summary(lmm_reading)
 ```
@@ -342,7 +340,12 @@ ggplot(analysis_avgs, aes(x = year, y = reading)) +
 
 #### *Writing*
 
-A second, identical linear mixed-effects model was applied to examine writing growth scores. Academic year significantly predicted writing scores, *F* (3, 276) = 14.24, *p* \< .001. Writing scores improved significantly in 2015-2016, *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* \< .001 and 2016-2017, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* \< .001 compared to 2008-2009. The difference between 2023-2024 and the reference year was not significant, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. Results for writing are shown in Fig. 3.
+A linear mixed-effects model was applied to examine the effect of academic year on writing growth scores. Similar to reading, academic year was treated as a fixed effect, and student ID was entered as a random intercept to account for repeated measurements. Academic year significantly predicted writing scores, *F* (2, 242) = 12.55, *p* < .001. Writing scores improved significantly in 2015-2016, *B* = 0.67, *SE* = 0.21, t(242) = 3.11, *p* = .002, and 2016-2017, *B* = 0.55, *SE* = 0.21, *t* (242) = 2.62, *p* = .009 compared to 2008-2009. Due to missing data, comparisons between 2008-2009, and 2023-2024 could not be analyzed. Results for writing are shown in Fig. 3.
+
+```{r rq2-model-writing, echo=FALSE}
+#PRINT LMM OUTPUT
+summary(lmm_writing)
+```
 
 ```{r rq2-visuals-writing, echo=FALSE}
 #Line plot: writing, fig 3
@@ -367,7 +370,12 @@ ggplot(analysis_avgs, aes(x = year, y = writing)) +
 
 #### *Math*
 
-A third, identical linear mixed-effects model was conducted to examine the effect of academic year on math growth scores. Academic year significantly predicted math scores, *F* (3, 276) = 14.24, *p* \< .001. Math scores were significantly higher in the 2015-2016 academic year compared to the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* \< .001. Similarly, students in 2016-2017 scored significantly higher than those in the baseline year, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* \< .001. In contrast, students’ math scores in 2023-2024 did not significantly differ from the reference year, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. The low variance value was essentially zero (7.725e-16), between reading, writing, and math for the model which suggests that most of the variability in domain scores can be attributed to the effects of year, rather than between-student effects. Results for math are shown in Fig. 4.
+A linear regression model was conducted to examine the effect of academic year on math growth scores, due to lack of unique participant IDs relative to the number of observations. Academic year significantly predicted math scores, *F* (2, 229) = 3.42, *p* = .034. Math scores were significantly higher in the 2015-2016 academic year compared to the reference year (2008-2009), *B* = 0.62, *SE* = 0.25, *t* (229) = 2.52, *p* = .012. In contrast, students’ math scores in 2023-2024 did not significantly differ from the reference year, *B* = 0.48, *SE* = 0.26, *t* (229) = 1.85, *p* = .065. Due to missing data, comparisons between 2008-2009, and 2016-2017 could not be analyzed. Results for math are shown in Fig. 4. The low variance values for each model between reading, writing, and math suggests that most of the variability in domain scores can be attributed to the effects of year, rather than between-student effects. Results for math are shown in Fig. 4.
+
+```{r rq2-model-math, echo=FALSE}
+#PRINT LM OUTPUT
+summary(lm_math)
+```
 
 ```{r rq2-visuals-math, echo=FALSE}
 #Line plot: math, fig 4
