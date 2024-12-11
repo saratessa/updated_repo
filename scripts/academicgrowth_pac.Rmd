@@ -259,6 +259,45 @@ ggplot(anova_analysis, aes(x = Assessment_Type, y = Mean_Growth)) +
     )
 ```
 
+### Research Question 2
+
+#### *Analytic Strategy*
+To examine how academic growth varied across different academic years, a linear mixed-effects model (LMM) was conducted, using the `lmer` function within R, in addition to `car` , `lme4` , and `lmertest` for relevant statistics of significance in the output. Academic `year` was utilized as a fixed effect, with student ID included as a random effect to account for repeated measurements, due to certain students appearing in the data set multiple times across years. This method allowed us to model within-student variability while estimating the average effect of academic year on academic growth in reading, writing, and math. The LMM was fit using restricted maximum likelihood (REML) for unbiased estimates of fixed and random effects.
+
+### Results
+```{r rq2-lmm, include=FALSE}
+#LMM for reading (PRINT MODEL OUTPUTS)
+#LMM
+#Checking variable structure
+str(analysis_avgs)
+
+#Changing 'year' from a character to a factor
+analysis_avgs$year <- as.factor(analysis_avgs$year)
+
+lmm_reading <- lmer(reading ~ year + (1 | id), data = analysis_avgs)
+summary(lmm_reading)
+lmm_reading
+#Model Assumptions
+# par(mfrow = c(2, 2))
+# plot(lmm_reading)
+
+#LMM for writing
+lmm_writing <- lmer(reading ~ year + (1 | id), data = analysis_avgs)
+summary(lmm_writing)
+lmm_writing
+#Model Assumptions
+# par(mfrow = c(2, 2))
+# plot(lmm_writing)
+
+#LMM for math
+lmm_math <- lmer(reading ~ year + (1 | id), data = analysis_avgs)
+summary(lmm_math)
+lmm_math
+#Model Assumptions
+# par(mfrow = c(2, 2))
+# plot(lmm_math)
+```
+
 
 
 
