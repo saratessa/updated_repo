@@ -34,7 +34,7 @@ library(lme4)
 library(lmerTest)
 library(emmeans)
 
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 # Introduction
