@@ -1,16 +1,13 @@
 ---
 title: "Longitudinal Analysis of Academic Growth Patterns at Morningside Academy:
   A Five-Year Assessment Study"
-author:
-- name: Saratessa Palos
-- name: Will Aragelov
-- name: Marcus Cumberbatch
+author: "Saratessa Palos, Will Arangelov, Marcus Cumberbatch"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     number_sections: true
+  html_document:
+    df_print: paged
 fontfamily: mathpazo
 fontsize: 11pt
 geometry: margin=1in
@@ -40,6 +37,8 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 # Introduction
 
 # Methods
+
+
 
 # Results
 ```{r read-data, include=FALSE}
