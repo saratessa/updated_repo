@@ -298,7 +298,82 @@ lmm_math
 # plot(lmm_math)
 ```
 
+#### *Reading*
+A linear mixed-effects model (LMM) was conducted to assess the effect of academic year on reading growth scores, with year 2008-2009 serving as a reference or baseline year for comparisons. Academic year was treated as a fixed effect, and student ID was entered as a random intercept to account for repeated measurements. Results suggest that academic year significantly predicted reading scores, *F*(3, 276) = 14.24, *p* < .001. Students in the 2015-2016 academic year scored significantly higher than the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t*(276) = 6.04, *p* < .001. Similarly, students in 2016-2017 also showed significant growth relative to the baseline, *B* = 0.87, *SE* = 0.16, t(276) = 5.53, *p* < .001. However, no significant difference was found between the 2023-2024 year and the reference year, *B* = -0.10, *SE* = 0.16, *t*(276) = -0.62, *p* = .533. Refer to the linear mixed model output (model is identical for reading, writing, and math) below for full transparency. Results for reading are shown in Fig. 2.
 
+```{r rq2-model, echo=FALSE}
+#PRINT LMM OUTPUT
+summary(lmm_reading)
+```
+
+```{r rq2-visuals-reading, echo=FALSE}
+#Line plot: reading, fig 2
+ggplot(analysis_avgs, aes(x = year, y = reading)) +
+  geom_violin(fill = "lightgrey", color = "black", trim = FALSE) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "black") + 
+  #stat_summary(fun = median, geom = "line", aes(group = 1), color = "black", linetype = "solid") +
+  labs(title = "Fig. 2",
+       subtitle = "Reading Score Distribution by Academic Year",
+       y = "Reading Score", 
+       x = "Academic Year") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5, face = "bold"),
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 12), 
+    axis.title.y = element_text(face = "bold", size = 12), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0), 
+    plot.subtitle = element_text(face = "italic", size = 12, hjust = 0),
+    )
+```
+
+#### *Writing*
+A second, identical linear mixed-effects model was applied to examine writing growth scores. Academic year significantly predicted writing scores, *F* (3, 276) = 14.24, *p* < .001. Writing scores improved significantly in 2015-2016, *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* < .001 and 2016-2017, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* < .001 compared to 2008-2009. The difference between 2023-2024 and the reference year was not significant, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. Results for writing are shown in Fig. 3.
+
+```{r rq2-visuals-writing, echo=FALSE}
+#Line plot: writing, fig 3
+ggplot(analysis_avgs, aes(x = year, y = writing)) +
+  geom_violin(fill = "lightgrey", color = "black", trim = FALSE) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "black") + 
+  #stat_summary(fun = median, geom = "line", aes(group = 1), color = "black", linetype = "solid") +
+  labs(title = "Fig. 3",
+       subtitle = "Writing Score Distribution by Academic Year",
+       y = "Writing Score", 
+       x = "Academic Year") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5, face = "bold"),
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 12), 
+    axis.title.y = element_text(face = "bold", size = 12), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0), 
+    plot.subtitle = element_text(face = "italic", size = 12, hjust = 0),
+    )
+```
+
+#### *Math*
+A third, identical linear mixed-effects model was conducted to examine the effect of academic year on math growth scores. Academic year significantly predicted math scores, *F* (3, 276) = 14.24, *p* < .001. Math scores were significantly higher in the 2015-2016 academic year compared to the reference year (2008-2009), *B* = 0.91, *SE* = 0.15, *t* (276) = 6.04, *p* < .001. Similarly, students in 2016-2017 scored significantly higher than those in the baseline year, *B* = 0.87, *SE* = 0.16, *t* (276) = 5.53, *p* < .001. In contrast, students’ math scores in 2023-2024 did not significantly differ from the reference year, *B* = -0.10, *SE* = 0.16, *t* (276) = -0.62, *p* = .533. The low variance value was essentially zero (7.725e-16), between reading, writing, and math for the model which suggests that most of the variability in domain scores can be attributed to the effects of year, rather than between-student effects. Results for math are shown in Fig. 4.
+
+```{r rq2-visuals-math, echo=FALSE}
+#Line plot: math, fig 4
+ggplot(analysis_avgs, aes(x = year, y = math)) +
+  geom_violin(fill = "lightgrey", color = "black", trim = FALSE) +
+  stat_summary(fun = median, geom = "point", shape = 19, size = 3, color = "black") + 
+  #stat_summary(fun = median, geom = "line", aes(group = 1), color = "black", linetype = "solid") +
+  labs(title = "Fig. 4",
+       subtitle = "Math Score Distribution by Academic Year",
+       y = "Math Score", 
+       x = "Academic Year") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5, face = "bold"),
+    axis.text.y = element_text(face = "bold"), 
+    axis.title.x = element_text(face = "bold", size = 12), 
+    axis.title.y = element_text(face = "bold", size = 12), 
+    plot.title = element_text(face = "bold", size = 18, hjust = 0), 
+    plot.subtitle = element_text(face = "italic", size = 12, hjust = 0),
+    )
+```
 
 
 
