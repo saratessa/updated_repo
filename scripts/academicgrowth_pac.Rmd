@@ -13,8 +13,6 @@ fontsize: 11pt
 geometry: margin=1in
 #bibliography: references.bib
 #csl: apa.csl
-#abstract: |
-# This study evaluates the Morningside Model of Generative Instruction using standardized assessment data from four school years (2008–2009, 2015–2016, 2016–2017, and 2023–2024). Repeated measures ANOVA and mixed-effects models revealed significant academic growth, with math and writing outperforming reading. Growth peaked during 2015–2017. Findings confirm MMGI’s effectiveness in addressing educational deficits. Results emphasize the importance of evidence-based instruction and consistent funding for sustaining educational advancements.
 ---
 
 ```{r setup, include=FALSE}
