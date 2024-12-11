@@ -4,10 +4,10 @@ title: "Longitudinal Analysis of Academic Growth Patterns at Morningside Academy
 author: "Saratessa Palos, Will Arangelov, Marcus Cumberbatch"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    number_sections: true
   html_document:
     df_print: paged
+  pdf_document:
+    number_sections: true
 fontfamily: mathpazo
 fontsize: 11pt
 geometry: margin=1in
@@ -15,7 +15,6 @@ geometry: margin=1in
 #csl: apa.csl
 abstract: |
 This study analyzed longitudinal assessment data from Morningside Academy, a private lab school specializing in behavioral education approaches for students with academic challenges. We examined student performance across four academic years (2008-2009, 2015-2016, 2016-2017, and 2023-2024) using secondary data analysis of scores from multiple standardized assessments including Woodcock-Johnson (WJ), Iowa Test of Basic Skills (ITBS), and Iowa Assessments (IA). The dataset comprises student assessment scores from four academic years (2023-2024: n=91, 2016-2017: n=88, 2015-2016: n=91, and 2008-2009: n=82). 
-Growth calculations were performed on reading, writing, and mathematics measures to analyze progress between fall and spring testing periods. Data processing involved standardizing student identifiers, calculating growth scores, and merging datasets for comprehensive analysis. Results provide insights into the effectiveness of the MMGI educational approach through examination of academic growth patterns across different domains and years.
 ---
 
 ```{r setup, include=FALSE}
